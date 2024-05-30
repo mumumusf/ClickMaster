@@ -1,63 +1,70 @@
-/* styles.css */
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
-  }
-  
-  h1 {
-    color: #333;
-  }
-  
-  button {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: transform 0.1s, box-shadow 0.1s;
-  }
-  
-  button:active {
-    transform: scale(0.95);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .click-button {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .upgrade-button {
-    background-color: #2196F3;
-    color: white;
-  }
-  
-  .sign-in-button {
-    background-color: #FF5722;
-    color: white;
-  }
-  
-  .connect-wallet-button {
-    background-color: #FFC107;
-    color: white;
-  }
-  
-  #points, #clickValue, #upgradeCost, #signInMessage, #walletAddress {
-    margin: 20px;
-    font-size: 18px;
-  }
-  
-  @keyframes pointAnimation {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-      color: #FFD700;
-    }
-    100% {
-      transform: scale(1);
-      color: #333;
-    }
-  }
-  
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f0f8ff;
+}
+
+h1 {
+  color: #333;
+}
+
+p {
+  font-size: 1.2em;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.click-button {
+  background-color: #28a745;
+}
+
+.click-button:hover {
+  background-color: #218838;
+}
+
+.upgrade-button {
+  background-color: #ffc107;
+}
+
+.upgrade-button:hover {
+  background-color: #e0a800;
+}
+
+.connect-wallet-button {
+  background-color: #6c757d;
+}
+
+.connect-wallet-button:hover {
+  background-color: #5a6268;
+}
+
+.sign-in-button {
+  background-color: #17a2b8;
+}
+
+.sign-in-button:hover {
+  background-color: #138496;
+}
+
+#inviteLink {
+  font-weight: bold;
+  color: #007bff;
+}
+
+#stamina {
+  font-size: 1.2em;
+  color: #d9534f;
+}
