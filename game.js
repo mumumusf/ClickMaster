@@ -1,71 +1,93 @@
-// game.js
 let points = 0;
 let clickValue = 1;
 let upgradeCost = 10;
-let lastSignInDate = null;
-let web3;
-let userAccount;
+let stamina = 1000;
+let maxStamina = 1000;
+let autoClickerCost = 10000;
+let hasAutoClicker = false;
+let walletAddress = '';
 
-function click() {
-  points += clickValue;
-  animatePoints();
-  updateUI();
+const pointsEl = document.getElementById('points');
+const clickValueEl = document.getElementById('clickValue');
+const upgradeCostEl = document.getElementById('upgradeCost');
+const inviteLinkEl = document.getElementById('inviteLink');
+const staminaEl = document.getElementById('stamina');
+const walletAddressEl = document.getElementById('walletAddress');
+
+function updateDisplay() {
+  pointsEl.innerText = `积分: ${points}`;
+  clickValueEl.innerText = `每次点击: ${clickValue} 分`;
+  upgradeCostEl.innerText = `升级所需积分: ${upgradeCost}`;
+  staminaEl.innerText = `体力: ${stamina}`;
+  walletAddressEl.innerText = `钱包地址: ${walletAddress ? walletAddress : '未连接'}`;
 }
 
-function upgradeTool() {
+function clickHandler() {
+  if (stamina > 0) {
+    points += clickValue;
+    stamina--;
+    updateDisplay();
+  } else {
+    alert('体力不足，请稍后再试。');
+  }
+}
+
+function upgradeHandler() {
   if (points >= upgradeCost) {
     points -= upgradeCost;
-    clickValue += 1;
+    clickValue++;
     upgradeCost *= 2;
-    updateUI();
+    updateDisplay();
   } else {
-    alert("积分不足！");
+    alert('积分不足，无法升级。');
   }
 }
 
-function signIn() {
-  const today = new Date().toDateString();
-  if (lastSignInDate === today) {
-    document.getElementById("signInMessage").innerText = "今天已经签到过了！";
+function autoClickerHandler() {
+  if (points >= autoClickerCost && !hasAutoClicker) {
+    points -= autoClickerCost;
+    hasAutoClicker = true;
+    setInterval(clickHandler, 1000);
+    updateDisplay();
   } else {
-    lastSignInDate = today;
-    points += 50; // 每日签到奖励积分
-    updateUI();
-    document.getElementById("signInMessage").innerText = "签到成功，获得50积分！";
+    alert('积分不足，无法购买自动点击器。');
   }
 }
 
-function updateUI() {
-  const pointsElement = document.getElementById("points");
-  pointsElement.innerText = `积分: ${points}`;
-  document.getElementById("clickValue").innerText = `每次点击: ${clickValue} 分`;
-  document.getElementById("upgradeCost").innerText = `升级所需积分: ${upgradeCost}`;
+function connectWallet() {
+  const web3Modal = new Web3Modal.default();
+  web3Modal.connect().then(provider => {
+    const web3 = new Web3(provider);
+    web3.eth.getAccounts().then(accounts => {
+      walletAddress = accounts[0];
+      updateDisplay();
+    });
+  }).catch(error => {
+    console.error(error);
+  });
 }
 
-function animatePoints() {
-  const pointsElement = document.getElementById("points");
-  pointsElement.style.animation = 'none';
-  pointsElement.offsetHeight; // 触发重新渲染
-  pointsElement.style.animation = 'pointAnimation 0.5s';
+function generateInviteLink() {
+  const url = new URL(window.location.href);
+  url.searchParams.set('ref', walletAddress);
+  inviteLinkEl.innerText = url.href;
 }
 
-async function connectWallet() {
-  if (window.ethereum) {
-    web3 = new Web3(window.ethereum);
-    try {
-      // 请求用户授权
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-      userAccount = accounts[0];
-      document.getElementById("walletAddress").innerText = `钱包地址: ${userAccount}`;
-    } catch (error) {
-      console.error("用户拒绝了连接请求", error);
-    }
-  } else {
-    alert("请安装MetaMask！");
+document.getElementById('clickButton').addEventListener('click', clickHandler);
+document.getElementById('upgradeButton').addEventListener('click', upgradeHandler);
+document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
+document.getElementById('autoClickerButton').addEventListener('click', autoClickerHandler);
+
+if (new URLSearchParams(window.location.search).has('ref')) {
+  const ref = new URLSearchParams(window.location.search).get('ref');
+  console.log(`被邀请的用户地址: ${ref}`);
+}
+
+setInterval(() => {
+  if (stamina < maxStamina) {
+    stamina++;
+    updateDisplay();
   }
-}
+}, 60000);
 
-document.getElementById("clickButton").addEventListener("click", click);
-document.getElementById("upgradeButton").addEventListener("click", upgradeTool);
-document.getElementById("signInButton").addEventListener("click", signIn);
-document.getElementById("connectWalletButton").addEventListener("click", connectWallet);
+updateDisplay();
