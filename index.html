@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>点击大师</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>点击大师</h1>
+  <p id="points">积分: 0</p>
+  <p id="clickValue">每次点击: 1 分</p>
+  <button id="clickButton" class="click-button">点击获取积分</button>
+  <p id="upgradeCost">升级所需积分: 10</p>
+  <button id="upgradeButton" class="upgrade-button">升级工具</button>
+  <p>邀请链接: <span id="inviteLink">生成中...</span></p>
+  <button id="signInButton" class="sign-in-button">每日签到</button>
+  <p id="signInMessage"></p>
+  <button id="connectWalletButton" class="connect-wallet-button">连接钱包</button>
+  <p id="walletAddress">钱包地址: 未连接</p>
+  <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
