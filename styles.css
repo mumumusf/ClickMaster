@@ -1,0 +1,63 @@
+/* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+  }
+  
+  button:active {
+    transform: scale(0.95);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .click-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .upgrade-button {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .sign-in-button {
+    background-color: #FF5722;
+    color: white;
+  }
+  
+  .connect-wallet-button {
+    background-color: #FFC107;
+    color: white;
+  }
+  
+  #points, #clickValue, #upgradeCost, #signInMessage, #walletAddress {
+    margin: 20px;
+    font-size: 18px;
+  }
+  
+  @keyframes pointAnimation {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+      color: #FFD700;
+    }
+    100% {
+      transform: scale(1);
+      color: #333;
+    }
+  }
+  
