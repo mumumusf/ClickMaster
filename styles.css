@@ -1,70 +1,30 @@
 body {
   font-family: Arial, sans-serif;
   text-align: center;
-  background-color: #f0f8ff;
+  background-color: #f0f0f0;
 }
 
 h1 {
   color: #333;
 }
 
-p {
-  font-size: 1.2em;
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
 }
 
-button {
-  padding: 10px 20px;
-  margin: 10px;
+#points, #clickValue, #upgradeCost, #inviteLink, #signInMessage, #walletAddress, #autoClickerCost, #staminaUpgradeCost, #stamina {
+  margin: 10px 0;
+}
+
+.click-button, .upgrade-button, .sign-in-button, .connect-wallet-button, .auto-clicker-button, .upgrade-stamina-button {
+  background-color: #008CBA;
+  color: white;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  font-size: 1em;
-  cursor: pointer;
 }
 
-button:hover {
-  background-color: #0056b3;
-}
-
-.click-button {
-  background-color: #28a745;
-}
-
-.click-button:hover {
-  background-color: #218838;
-}
-
-.upgrade-button {
-  background-color: #ffc107;
-}
-
-.upgrade-button:hover {
-  background-color: #e0a800;
-}
-
-.connect-wallet-button {
-  background-color: #6c757d;
-}
-
-.connect-wallet-button:hover {
-  background-color: #5a6268;
-}
-
-.sign-in-button {
-  background-color: #17a2b8;
-}
-
-.sign-in-button:hover {
-  background-color: #138496;
-}
-
-#inviteLink {
-  font-weight: bold;
-  color: #007bff;
-}
-
-#stamina {
-  font-size: 1.2em;
-  color: #d9534f;
+.click-button:hover, .upgrade-button:hover, .sign-in-button:hover, .connect-wallet-button:hover, .auto-clicker-button:hover, .upgrade-stamina-button:hover {
+  background-color: #005f73;
 }
