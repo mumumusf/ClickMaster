@@ -7,22 +7,24 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>点击大师</h1>
-  <p id="points">积分: 0</p>
-  <p id="clickValue">每次点击: 1 分</p>
-  <button id="clickButton" class="click-button">点击获取积分</button>
-  <p id="upgradeCost">升级所需积分: 10</p>
-  <button id="upgradeButton" class="upgrade-button">升级工具</button>
-  <p>邀请链接: <span id="inviteLink">生成中...</span></p>
-  <button id="signInButton" class="sign-in-button">每日签到</button>
-  <p id="signInMessage"></p>
-  <button id="connectWalletButton" class="connect-wallet-button">连接钱包</button>
-  <p id="walletAddress">钱包地址: 未连接</p>
-  <button id="autoClickerButton" class="auto-clicker-button">购买自动点击器</button>
-  <p id="autoClickerCost">自动点击器所需积分: 10000</p>
-  <button id="upgradeStaminaButton" class="upgrade-stamina-button">升级体力</button>
-  <p id="staminaUpgradeCost">升级体力所需积分: 500</p>
-  <p id="stamina">体力: 1000</p>
+  <div class="container">
+    <h1>点击大师</h1>
+    <p id="points">积分: 0</p>
+    <p id="clickValue">每次点击: 1 分</p>
+    <button id="clickButton" class="click-button">点击获取积分</button>
+    <p id="upgradeCost">升级所需积分: 10</p>
+    <button id="upgradeButton" class="upgrade-button">升级工具</button>
+    <p>邀请链接: <span id="inviteLink">生成中...</span></p>
+    <button id="signInButton" class="sign-in-button">每日签到</button>
+    <p id="signInMessage"></p>
+    <button id="connectWalletButton" class="connect-wallet-button">连接钱包</button>
+    <p id="walletAddress">钱包地址: 未连接</p>
+    <button id="autoClickerButton" class="auto-clicker-button">购买自动点击器</button>
+    <p id="autoClickerCost">自动点击器所需积分: 10000</p>
+    <button id="upgradeStaminaButton" class="upgrade-stamina-button">升级体力</button>
+    <p id="staminaUpgradeCost">升级体力所需积分: 500</p>
+    <p id="stamina">体力: 1000</p>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/web3modal"></script>
   <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider"></script>
