@@ -1,176 +1,109 @@
+const providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      infuraId: '94184daf0a5a4005bed6f2dd7bddbbfa' // 用你的Infura项目ID替换这里
+    }
+  }
+};
+
 let points = 0;
 let clickValue = 1;
 let upgradeCost = 10;
 let stamina = 1000;
-let maxStamina = 1000;
-let autoClickerCost = 10000;
-let staminaUpgradeCost = 500;
-let hasAutoClicker = false;
+let staminaRecoveryRate = 1;
 let walletAddress = '';
-let signedIn = false;
-
-const pointsEl = document.getElementById('points');
-const clickValueEl = document.getElementById('clickValue');
-const upgradeCostEl = document.getElementById('upgradeCost');
-const inviteLinkEl = document.getElementById('inviteLink');
-const staminaEl = document.getElementById('stamina');
-const walletAddressEl = document.getElementById('walletAddress');
-const signInMessageEl = document.getElementById('signInMessage');
-const autoClickerCostEl = document.getElementById('autoClickerCost');
-const staminaUpgradeCostEl = document.getElementById('staminaUpgradeCost');
-
-function updateDisplay() {
-  pointsEl.innerText = `积分: ${points}`;
-  clickValueEl.innerText = `每次点击: ${clickValue} 分`;
-  upgradeCostEl.innerText = `升级所需积分: ${upgradeCost}`;
-  staminaEl.innerText = `体力: ${stamina}`;
-  autoClickerCostEl.innerText = `自动点击器所需积分: ${autoClickerCost}`;
-  staminaUpgradeCostEl.innerText = `升级体力所需积分: ${staminaUpgradeCost}`;
-  walletAddressEl.innerText = `钱包地址: ${walletAddress ? walletAddress : '未连接'}`;
-}
-
-function clickHandler() {
-  if (stamina > 0) {
-    points += clickValue;
-    stamina--;
-    updateDisplay();
-    saveGameState();
-  } else {
-    alert('体力不足，请稍后再试。');
-  }
-}
-
-function upgradeHandler() {
-  if (points >= upgradeCost) {
-    points -= upgradeCost;
-    clickValue++;
-    upgradeCost *= 2;
-    updateDisplay();
-    saveGameState();
-  } else {
-    alert('积分不足，无法升级。');
-  }
-}
-
-function autoClickerHandler() {
-  if (points >= autoClickerCost && !hasAutoClicker) {
-    points -= autoClickerCost;
-    hasAutoClicker = true;
-    setInterval(clickHandler, 1000);
-    updateDisplay();
-    saveGameState();
-  } else {
-    alert('积分不足，无法购买自动点击器。');
-  }
-}
-
-function upgradeStaminaHandler() {
-  if (points >= staminaUpgradeCost) {
-    points -= staminaUpgradeCost;
-    maxStamina += 500;
-    stamina += 500;
-    staminaUpgradeCost *= 2;
-    updateDisplay();
-    saveGameState();
-  } else {
-    alert('积分不足，无法升级体力。');
-  }
-}
 
 async function connectWallet() {
-  const Web3Modal = window.Web3Modal.default;
-  const WalletConnectProvider = window.WalletConnectProvider.default;
-
-  const providerOptions = {
-    walletconnect: {
-      package: WalletConnectProvider,
-      options: {
-        infuraId: 'INFURA_ID' // Replace with your Infura ID
-      }
-    }
-  };
-
-  const web3Modal = new Web3Modal({
+  const provider = new Web3Modal({
     cacheProvider: false,
     providerOptions
   });
 
   try {
-    const provider = await web3Modal.connect();
-    const web3 = new Web3(provider);
+    const instance = await provider.connect();
+    const web3 = new Web3(instance);
+
+    // 获取用户地址
     const accounts = await web3.eth.getAccounts();
     walletAddress = accounts[0];
-    loadGameState();
-    updateDisplay();
-    generateInviteLink();
+
+    document.getElementById('walletAddress').innerText = `钱包地址: ${walletAddress}`;
+
+    // 加载用户数据
+    loadUserData(walletAddress);
   } catch (error) {
-    console.error('Could not connect to wallet:', error);
+    console.error('连接钱包失败:', error);
   }
 }
 
-function generateInviteLink() {
-  const url = new URL(window.location.href);
-  url.searchParams.set('ref', walletAddress);
-  inviteLinkEl.innerText = url.href;
-}
-
-function saveGameState() {
-  if (walletAddress) {
-    localStorage.setItem(walletAddress, JSON.stringify({
-      points,
-      clickValue,
-      upgradeCost,
-      stamina,
-      maxStamina,
-      hasAutoClicker
-    }));
+async function loadUserData(walletAddress) {
+  // 在这里实现加载用户数据的逻辑，例如从后端服务器获取用户的积分等
+  // 假设从服务器返回的数据如下：
+  const userData = await fetchUserData(walletAddress);
+  if (userData) {
+    points = userData.points;
+    updatePointsDisplay();
   }
 }
 
-function loadGameState() {
-  if (walletAddress) {
-    const savedState = JSON.parse(localStorage.getItem(walletAddress));
-    if (savedState) {
-      points = savedState.points;
-      clickValue = savedState.clickValue;
-      upgradeCost = savedState.upgradeCost;
-      stamina = savedState.stamina;
-      maxStamina = savedState.maxStamina;
-      hasAutoClicker = savedState.hasAutoClicker;
-      updateDisplay();
-    }
-  }
+async function fetchUserData(walletAddress) {
+  // 模拟从服务器获取用户数据
+  return {
+    points: 1000, // 示例数据
+  };
 }
 
-function dailySignIn() {
-  if (!signedIn) {
-    points += 100; // 每日签到奖励100积分
-    signedIn = true;
-    signInMessageEl.innerText = '已签到，明天再来吧！';
-    saveGameState();
-    updateDisplay();
+function updatePointsDisplay() {
+  document.getElementById('points').innerText = `积分: ${points}`;
+  document.getElementById('clickValue').innerText = `每次点击: ${clickValue} 分`;
+  document.getElementById('upgradeCost').innerText = `升级所需积分: ${upgradeCost}`;
+}
+
+document.getElementById('clickButton').addEventListener('click', () => {
+  if (stamina > 0) {
+    points += clickValue;
+    stamina--;
+    updatePointsDisplay();
+    updateStaminaDisplay();
   } else {
-    signInMessageEl.innerText = '今天已经签到过了，请明天再来。';
+    alert('体力不足！');
   }
+});
+
+document.getElementById('upgradeButton').addEventListener('click', () => {
+  if (points >= upgradeCost) {
+    points -= upgradeCost;
+    clickValue *= 2;
+    upgradeCost *= 2;
+    updatePointsDisplay();
+  } else {
+    alert('积分不足！');
+  }
+});
+
+document.getElementById('signInButton').addEventListener('click', () => {
+  // 每日签到逻辑
+  points += 100;
+  updatePointsDisplay();
+  document.getElementById('signInMessage').innerText = '签到成功！';
+});
+
+function updateStaminaDisplay() {
+  document.getElementById('stamina').innerText = `体力: ${stamina}`;
 }
 
-document.getElementById('clickButton').addEventListener('click', clickHandler);
-document.getElementById('upgradeButton').addEventListener('click', upgradeHandler);
+function recoverStamina() {
+  stamina += staminaRecoveryRate;
+  if (stamina > 1000) stamina = 1000; // 最大体力限制
+  updateStaminaDisplay();
+}
+
+// 每2秒恢复1点体力
+setInterval(recoverStamina, 2000);
+
 document.getElementById('connectWalletButton').addEventListener('click', connectWallet);
-document.getElementById('autoClickerButton').addEventListener('click', autoClickerHandler);
-document.getElementById('upgradeStaminaButton').addEventListener('click', upgradeStaminaHandler);
-document.getElementById('signInButton').addEventListener('click', dailySignIn);
 
-if (new URLSearchParams(window.location.search).has('ref')) {
-  const ref = new URLSearchParams(window.location.search).get('ref');
-  console.log(`被邀请的用户地址: ${ref}`);
-}
-
-setInterval(() => {
-  if (stamina < maxStamina) {
-    stamina++;
-    updateDisplay();
-  }
-}, 2000);
-
-updateDisplay();
+// 页面加载时初始化
+updatePointsDisplay();
+updateStaminaDisplay();
