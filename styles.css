@@ -2,18 +2,6 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   background-color: #f0f0f0;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  padding: 20px;
-  background-color: white;
-  max-width: 600px;
-  margin: auto;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  margin-top: 50px;
 }
 
 h1 {
@@ -21,19 +9,29 @@ h1 {
 }
 
 button {
-  margin: 10px;
   padding: 10px 20px;
+  margin: 10px;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 5px;
-  border: none;
 }
 
-.click-button, .upgrade-button, .sign-in-button, .connect-wallet-button, .auto-clicker-button, .upgrade-stamina-button {
-  background-color: #008CBA;
+.click-button {
+  background-color: #4CAF50;
   color: white;
+  border: none;
+  border-radius: 5px;
 }
 
-.click-button:hover, .upgrade-button:hover, .sign-in-button:hover, .connect-wallet-button:hover, .auto-clicker-button:hover, .upgrade-stamina-button:hover {
-  background-color: #005f73;
+.upgrade-button {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.sign-in-button, .connect-wallet-button {
+  background-color: #FF9800;
+  color: white;
+  border: none;
+  border-radius: 5px;
 }
